@@ -27,6 +27,13 @@ pipeline {
                 powershell label: '', script: 'mvn clean package'
       }
     }
+    stage('Acknowledgement')
+    {
+    	steps{
+		mail bcc: '', body: 'Test Email', cc: '', from: '', replyTo: '', subject: 'Build Status', to: 'br_hariharan@yahoo.com'
+	}
+	
+    }
     stage('Archive')
     {
         steps
