@@ -1,0 +1,46 @@
+//Checkout
+//checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/hariharan-br/discoveri-happytrip.git']]])
+
+//Build
+//powershell label: '', script: 'mvn clean package'
+
+
+  
+pipeline {
+  agent any
+  stages {
+    stage('Source') { 
+      steps {
+                //Checkout
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/hariharan-br/discoveri-happytrip.git']]])
+
+      }
+    }
+    stage('Compile') { 
+      tools {
+        // Specify Tool Name from your global tool configuration
+		jdk 'jdk8'
+        maven 'MavenBuilder'
+      }
+      steps {
+                //Build
+                powershell label: '', script: 'mvn clean package'
+      }
+    }
+    stage('Archive')
+    {
+        steps
+        {
+            archiveArtifacts '**/*.war'
+        }
+    }
+    
+    stage('Deploy')
+    {
+        steps
+        {
+            deploy adapters: [tomcat7(credentialsId: '9dc12d3f-82cf-4e0a-9dfa-93bb04962491', path: '', url: 'http://localhost:8085')], contextPath: 'HappyTripAssignment', war: '**/*.war'
+        }
+    }
+  }
+}
