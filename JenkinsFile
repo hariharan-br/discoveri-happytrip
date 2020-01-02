@@ -31,17 +31,20 @@ pipeline {
     {
     	steps
 	{
-		mail bcc: '', 
+		mail 
+		bcc: '', 
+		cc: '', 
+		from: '', 
+		replyTo: '', 
+		subject: 'Build '+currentBuild.currentResult+' for '+currentBuild.projectName, 
+		to: 'br_hariharan@yahoo.com'
 		body: 'Build details:\n'
 		+'Build number: '+currentBuild.number+'\n'
 		+'Builed Result: '+currentBuild.currentResult+'\n'
 		+'Full Project Name: '+currentBuild.fullProjectname+'\n'
 		+'Description: '+currentBuild.description+'\n'
-		+'Duration: '+currentBuild.duration+'\n', 
-		cc: '', 
-		from: '', replyTo: '', 
-		subject: 'Build '+currentBuild.currentResult+' for '+currentBuild.projectName, 
-		to: 'br_hariharan@yahoo.com'
+		+'Duration: '+currentBuild.duration/1000+'\n' 
+
 	}
     }
     stage('Archive')
