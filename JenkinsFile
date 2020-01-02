@@ -31,7 +31,17 @@ pipeline {
     {
     	steps
 	{
-		mail bcc: '', body: 'The build '+currentBuild.displayName+' has '+currentBuild.currentResult, cc: '', from: '', replyTo: '', subject: 'Build Status', to: 'br_hariharan@yahoo.com'
+		mail bcc: '', 
+		body: 'Build details:\n'
+		+'Build number: '+currentBuild.number+'\n'
+		+'Builed Result: '+currentBuild.currentResult+'\n'
+		+'Full Project Name: '+currentBuild.fullProjectname+'\n'
+		+'Description: '+currentBuild.description+'\n'
+		+'Duration: '+currentBuild.duration/1000+'\n', 
+		cc: '', 
+		from: '', replyTo: '', 
+		subject: 'Build '+currentBuild.currentResult+' for '+currentBuild.projectName, 
+		to: 'br_hariharan@yahoo.com'
 	}
     }
     stage('Archive')
