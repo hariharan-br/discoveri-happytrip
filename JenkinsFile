@@ -31,7 +31,7 @@ pipeline {
     {
     	steps
 	{
-		mail bcc: '', body: 'Test Email', cc: '', from: '', replyTo: '', subject: 'Build Status', to: 'br_hariharan@yahoo.com'
+		mail bcc: '', body: 'The build '+currentBuild.displayName+' has '+currentBuild.currentResult, cc: '', from: '', replyTo: '', subject: 'Build Status', to: 'br_hariharan@yahoo.com'
 	}
     }
     stage('Archive')
