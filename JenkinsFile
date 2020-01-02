@@ -37,7 +37,7 @@ pipeline {
 		+'Builed Result: '+currentBuild.currentResult+'\n'
 		+'Full Project Name: '+currentBuild.fullProjectname+'\n'
 		+'Description: '+currentBuild.description+'\n'
-		+'Duration: '+currentBuild.duration/1000+'\n', 
+		+'Duration: '+currentBuild.duration+'\n', 
 		cc: '', 
 		from: '', replyTo: '', 
 		subject: 'Build '+currentBuild.currentResult+' for '+currentBuild.projectName, 
