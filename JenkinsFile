@@ -27,14 +27,25 @@ pipeline {
                 powershell label: '', script: 'mvn clean package'
       }
     }
-    stage('Email')
+    //stage('Email')
+    //{
+    	//steps
+	//{
+	//	mail subject: 'Build '+currentBuild.currentResult+' for '+currentBuild.projectName,to: 'br_hariharan@yahoo.com',body: 'Build details:\n'+'Build number: '+currentBuild.number+'\n'+'Builed Result: '+currentBuild.currentResult+'\n'+'Full Project Name: '+currentBuild.fullProjectname+'\n'+'Description: '+currentBuild.description+'\n'+'Duration: '+currentBuild.duration/1000+'\n'
+
+
+	//}
+    //}
+    stage('Code Analysis')
     {
-    	steps
-	{
-		mail subject: 'Build '+currentBuild.currentResult+' for '+currentBuild.projectName,to: 'br_hariharan@yahoo.com',body: 'Build details:\n'+'Build number: '+currentBuild.number+'\n'+'Builed Result: '+currentBuild.currentResult+'\n'+'Full Project Name: '+currentBuild.fullProjectname+'\n'+'Description: '+currentBuild.description+'\n'+'Duration: '+currentBuild.duration/1000+'\n'
-
-
-	}
+    steps {
+                script {
+                    def scannerHome = tool 'SonarQubeTool'
+                    withSonarQubeEnv('SonarQubeAnalyzer') {
+                        bat "\"${scannerHome}\\bin\\sonar-scanner.bat\" -Dsonar.host.url=http:\"\"localhost:9000 -Dsonar.projectName=HappyTripAssignment -Dsonar.projectVersion=${currentBuild.number} -Dsonar.projectKey=HappyTripAssignment:app -Dsonar.sources=. -Dsonar.java.binaries=."
+                    }
+                }
+            }
     }
     stage('Archive')
     {
